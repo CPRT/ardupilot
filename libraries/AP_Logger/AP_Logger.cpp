@@ -375,7 +375,7 @@ bool AP_Logger::labels_string_is_good(const char *labels) const
 {
     bool passed = true;
     if (strlen(labels) >= LS_LABELS_SIZE) {
-        Debug("Labels string too long (%u > %u)", unsigned(strlen(labels)), unsigned(LS_LABELS_SIZE));
+        Debug("Labels string too long (%u >= %u)", unsigned(strlen(labels)), unsigned(LS_LABELS_SIZE));
         passed = false;
     }
     // This goes through and slices labels up into substrings by
@@ -698,6 +698,14 @@ void AP_Logger::setVehicle_Startup_Writer(vehicle_startup_message_Writer writer)
 {
     _vehicle_messages = writer;
 }
+
+#if AP_RTC_LOGGING_ENABLED
+// Write RTC data
+void AP_Logger::Write_RTC()
+{
+    FOR_EACH_BACKEND(Write_RTC());
+}
+#endif  // AP_RTC_LOGGING_ENABLED
 
 void AP_Logger::set_vehicle_armed(const bool armed_state)
 {

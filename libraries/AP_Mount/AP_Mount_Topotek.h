@@ -226,10 +226,6 @@ private:
     // hexadecimal to character conversion
     uint8_t hex2char(uint8_t data) const;
 
-    // convert a 4 character hex number to an integer
-    // the characters are in the format "1234" where the most significant digit is first
-    int16_t hexchar4_to_int16(char high, char mid_high, char mid_low, char low) const;
-
     // send a fixed length packet to gimbal
     // returns true on success, false if serial port initialization failed
     bool send_fixedlen_packet(AddressByte address, const Identifier id, bool write, uint8_t value);
@@ -254,7 +250,7 @@ private:
     bool _got_gimbal_model_name;                                // true if gimbal's model name has been received
     bool _last_zoom_stop;                                       // true if zoom has been stopped (used to re-send in order to handle lost packets)
     bool _last_focus_stop;                                      // true if focus has been stopped (used to re-sent in order to handle lost packets)
-    uint8_t _model_name[16];                                    // gimbal model name
+    char _model_name[16];                                       // gimbal model name, always null-terminated
     uint8_t _sent_time_count;                                   // count of current time messages sent to gimbal
     uint32_t _firmware_ver;                                     // firmware version
     Vector3f _current_angle_rad;                                // current angles in radians received from gimbal (x=roll, y=pitch, z=yaw)
